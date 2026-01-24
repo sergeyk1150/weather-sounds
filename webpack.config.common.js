@@ -25,6 +25,10 @@ module.exports = {
           from: path.resolve(__dirname, "src/assets"),
           to: path.resolve(__dirname, "dist/assets"),
         },
+        {
+          from: path.resolve(__dirname, "src/fonts"),
+          to: path.resolve(__dirname, "dist/fonts"),
+        },
       ],
     }),
     new MiniCssExtractPlugin(),
@@ -34,6 +38,10 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
       },
     ],
   },
