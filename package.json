@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "npx webpack --mode development",
+    "start": "npx webpack serve --config webpack.config.dev.js",
     "build": "npx webpack --config webpack.config.prod.js",
     "build:dev": "npx webpack --config webpack.config.dev.js"
   },
@@ -21,6 +21,7 @@
     "terser-webpack-plugin": "^5.3.16",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.3",
     "webpack-merge": "^6.0.1"
   }
 }
