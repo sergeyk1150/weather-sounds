@@ -1,2 +1,6 @@
 import "./index.css";
-console.log("hello");
+import { WeatherSounds } from "./components/weatherSounds/WeatherSounds";
+
+document.addEventListener("DOMContentLoaded", () => {
+  new WeatherSounds(".root");
+});
