@@ -7,7 +7,7 @@ export class Dom {
     }
 
     if (options.attr) {
-      Object.entries(options.attrs).forEach(([key, value]) => {
+      Object.entries(options.attr).forEach(([key, value]) => {
         el.setAttribute(key, value);
       });
     }
@@ -28,6 +28,10 @@ export class Dom {
     }
 
     return el;
+  }
+
+  static text(text) {
+    return document.createTextNode(text);
   }
 
   static mount(parent, child) {
