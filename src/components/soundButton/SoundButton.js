@@ -7,6 +7,8 @@ export class SoundButton {
     this.icon = icon;
     this.onClick = onClick;
 
+    this.isActive = false;
+
     this.$root = this.createElement();
   }
 
@@ -28,6 +30,15 @@ export class SoundButton {
       ],
     });
     return $button;
+  }
+
+  setActive() {
+    this.isActive = true;
+    this.$root.classList.add("active");
+  }
+  setInactive() {
+    this.isActive = false;
+    this.$root.classList.remove("active");
   }
 
   getElement() {

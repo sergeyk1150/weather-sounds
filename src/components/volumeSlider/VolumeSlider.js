@@ -1,7 +1,8 @@
 import { Dom } from "../../core/Dom";
 
 export class VolumeSlider {
-  constructor() {
+  constructor({ audioManager }) {
+    this.audioManager = audioManager;
     this.$root = this.createElement();
   }
 
@@ -15,7 +16,9 @@ export class VolumeSlider {
         value: 0.5,
       },
       events: {
-        input: () => {},
+        input: (e) => {
+          this.audioManager.setVolume(e.target.value);
+        },
       },
     });
     const $label = Dom.create("label", {

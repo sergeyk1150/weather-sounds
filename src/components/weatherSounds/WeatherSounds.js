@@ -2,10 +2,12 @@ import { Dom } from "../../core/Dom";
 import { buttonsConfig } from "./buttonsConfig";
 import { SoundButton } from "../soundButton/SoundButton";
 import { VolumeSlider } from "../volumeSlider/VolumeSlider";
+import { AudioManager } from "../../audio/AudioManager";
 
 export class WeatherSounds {
   constructor(rootSelector) {
-    this.root = document.querySelector(rootSelector);
+    this.$root = document.querySelector(rootSelector);
+    this.audioManager = new AudioManager();
     this.createLayout();
     this.createButtons();
     this.createVolume();
@@ -30,13 +32,14 @@ export class WeatherSounds {
       children: [this.background, this.panel],
     });
 
-    Dom.mount(this.root, this.app);
+    Dom.mount(this.$root, this.app);
   }
 
   createButtons() {
     buttonsConfig.forEach((data, index) => {
       const button = new SoundButton({
         ...data,
+        onClick: this.handlerButtonClick.bind(this),
       });
       Dom.mount(this.buttonsWrapper, button.getElement());
       if (index === 0) {
@@ -46,12 +49,31 @@ export class WeatherSounds {
   }
 
   createVolume() {
-    const volume = new VolumeSlider();
+    const volume = new VolumeSlider({ audioManager: this.audioManager });
 
     Dom.mount(this.panel, volume.getElement());
   }
 
   setBackground(image) {
     this.background.style.backgroundImage = `url(${image})`;
+  }
+
+  handlerButtonClick(button) {
+    if (this.currentButton === button) {
+      this.audioManager.pause();
+      button.setInactive();
+      this.currentButton = null;
+      return;
+    }
+
+    if (this.currentButton) {
+      this.currentButton.setInactive();
+      this.audioManager.stop();
+    }
+
+    this.currentButton = button;
+    button.setActive();
+
+    this.audioManager.play(button.audioSrc);
   }
 }
