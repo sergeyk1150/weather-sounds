@@ -60,9 +60,13 @@ export class WeatherSounds {
 
   handlerButtonClick(button) {
     if (this.currentButton === button) {
-      this.audioManager.pause();
-      button.setInactive();
-      this.currentButton = null;
+      if (this.audioManager.isPaused()) {
+        this.audioManager.play(button.audioSrc);
+        button.showDefaultIcon();
+      } else {
+        this.audioManager.pause();
+        button.showPausedIcon();
+      }
       return;
     }
 
@@ -73,6 +77,7 @@ export class WeatherSounds {
 
     this.currentButton = button;
     button.setActive();
+    button.showDefaultIcon();
 
     this.audioManager.play(button.audioSrc);
     this.setBackground(button.backgroundImage);

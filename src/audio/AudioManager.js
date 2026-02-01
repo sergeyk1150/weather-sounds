@@ -6,8 +6,6 @@ export class AudioManager {
   }
 
   play(src) {
-    if (this.currentSrc === src && !this.audio.paused) return;
-
     if (this.currentSrc !== src) {
       this.stop();
       this.audio.src = src;
@@ -18,6 +16,10 @@ export class AudioManager {
 
   pause() {
     this.audio.pause();
+  }
+
+  isPaused() {
+    return this.audio.paused;
   }
 
   stop() {

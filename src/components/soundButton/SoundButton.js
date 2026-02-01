@@ -1,10 +1,17 @@
 import { Dom } from "../../core/Dom";
 
 export class SoundButton {
-  constructor({ audioSrc, backgroundImage, icon, onClick }) {
+  constructor({
+    audioSrc,
+    backgroundImage,
+    icon,
+    pauseIcon: pausedIcon,
+    onClick,
+  }) {
     this.audioSrc = audioSrc;
     this.backgroundImage = backgroundImage;
-    this.icon = icon;
+    this.iconSrc = icon;
+    this.pausedIcon = pausedIcon;
     this.onClick = onClick;
 
     this.isActive = false;
@@ -13,6 +20,12 @@ export class SoundButton {
   }
 
   createElement() {
+    this.iconEl = Dom.create("img", {
+      attr: {
+        src: this.iconSrc,
+        alt: "",
+      },
+    });
     const $button = Dom.create("button", {
       className: "sound-button",
       style: {
@@ -21,13 +34,7 @@ export class SoundButton {
       events: {
         click: () => this.onClick(this),
       },
-      children: [
-        this.icon
-          ? Dom.create("img", {
-              attr: { src: this.icon, alt: "" },
-            })
-          : null,
-      ],
+      children: [this.iconEl],
     });
     return $button;
   }
@@ -39,6 +46,15 @@ export class SoundButton {
   setInactive() {
     this.isActive = false;
     this.$root.classList.remove("active");
+    this.showDefaultIcon();
+  }
+
+  showPausedIcon() {
+    this.iconEl.src = this.pausedIcon;
+  }
+
+  showDefaultIcon() {
+    this.iconEl.src = this.iconSrc;
   }
 
   getElement() {
