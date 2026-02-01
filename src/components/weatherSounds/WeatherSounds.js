@@ -75,5 +75,6 @@ export class WeatherSounds {
     button.setActive();
 
     this.audioManager.play(button.audioSrc);
+    this.setBackground(button.backgroundImage);
   }
 }
