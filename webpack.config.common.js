@@ -9,11 +9,14 @@ const __dirname = path.dirname(__filename);
 
 export default {
   context: path.resolve(__dirname, "src"),
-  entry: "./index.js",
+  entry: "./index.ts",
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js", ".jsx"],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -46,6 +49,11 @@ export default {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.[tj]sx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
       },
     ],
   },

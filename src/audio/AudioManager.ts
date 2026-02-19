@@ -1,11 +1,16 @@
+import { AUDIO_DEFAULTS } from "../constants/audio.config.default";
+
 export class AudioManager {
+  audio: HTMLAudioElement
+  currentSrc: string | null
+
   constructor() {
     this.audio = new Audio();
-    this.audio.volume = 0.5;
+    this.audio.volume = Number(AUDIO_DEFAULTS.VALUE);
     this.currentSrc = null;
   }
 
-  play(src) {
+  play(src: string | null): void {
     if (this.currentSrc !== src) {
       this.stop();
       this.audio.src = src;
@@ -14,20 +19,20 @@ export class AudioManager {
     this.audio.play();
   }
 
-  pause() {
+  pause(): void {
     this.audio.pause();
   }
 
-  isPaused() {
+  isPaused(): boolean {
     return this.audio.paused;
   }
 
-  stop() {
+  stop(): void {
     this.audio.pause();
     this.audio.currentTime = 0;
   }
 
-  setVolume(value) {
+  setVolume(value: number): void {
     this.audio.volume = value;
   }
 }

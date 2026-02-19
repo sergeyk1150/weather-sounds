@@ -1,26 +1,41 @@
 import { Dom } from "../../core/Dom";
 
-export class SoundButton {
+interface SoundButtonProps {
+  audioSrc: string,
+  backgroundImage: string,
+  iconSrc: string,
+  pausedIcon: string,
+  onClick: (button: SoundButton) => void,
+}
+
+export class SoundButton implements SoundButtonProps {
+  audioSrc: string
+  backgroundImage: string;
+  iconSrc: string;
+  pausedIcon: string;
+  onClick: (button: SoundButton) => void;
+  isActive: boolean;
+  $root: HTMLButtonElement;
+  $icon: HTMLImageElement;
+  
   constructor({
     audioSrc,
     backgroundImage,
-    icon,
-    pauseIcon: pausedIcon,
+    iconSrc,
+    pausedIcon,
     onClick,
-  }) {
+  }: SoundButtonProps) {
     this.audioSrc = audioSrc;
     this.backgroundImage = backgroundImage;
-    this.iconSrc = icon;
+    this.iconSrc = iconSrc;
     this.pausedIcon = pausedIcon;
     this.onClick = onClick;
-
     this.isActive = false;
-
     this.$root = this.createElement();
   }
 
-  createElement() {
-    this.iconEl = Dom.create("img", {
+  createElement(): HTMLButtonElement {
+    this.$icon = Dom.create("img", {
       attr: {
         src: this.iconSrc,
         alt: "",
@@ -34,30 +49,30 @@ export class SoundButton {
       events: {
         click: () => this.onClick(this),
       },
-      children: [this.iconEl],
+      children: [this.$icon],
     });
     return $button;
   }
 
-  setActive() {
+  setActive(): void {
     this.isActive = true;
     this.$root.classList.add("active");
   }
-  setInactive() {
+  setInactive(): void {
     this.isActive = false;
     this.$root.classList.remove("active");
     this.showDefaultIcon();
   }
 
-  showPausedIcon() {
-    this.iconEl.src = this.pausedIcon;
+  showPausedIcon(): void {
+    this.$icon.src = this.pausedIcon;
   }
 
-  showDefaultIcon() {
-    this.iconEl.src = this.iconSrc;
+  showDefaultIcon(): void {
+    this.$icon.src = this.iconSrc;
   }
 
-  getElement() {
+  getElement(): HTMLButtonElement {
     return this.$root;
   }
 }
